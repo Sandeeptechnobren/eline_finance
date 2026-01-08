@@ -1,0 +1,18 @@
+{
+  "income": {
+    "operating_income": "Operating income",
+    "new_income": "New income",
+    "other_income": "Other income",
+    "borrowing": "Borrowing",
+    "recurring": "Recurring",
+    "investments": "Investments"
+  },
+  "expense": {
+    "other_operating_expenses": "Other operating expenses",
+    "staff_costs": "Staff costs",
+    "cost_of_sales": "Cost of sales",
+    "taxes": "Taxes",
+    "borrowing": "Borrowing",
+    "investments": "Investments"
+  }
+}
