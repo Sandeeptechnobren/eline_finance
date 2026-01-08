@@ -15,7 +15,8 @@ async def query_builder(request: QueryRequest):
     print("Analyzed Intent:", intent)
 
     # 🔑 SINGLE source of clarification truth
-    if intent.get("needs_clarification"):
+    if intent.get("needs_clarification") or (
+    not intent.get("multiple_categories") and not intent.get("category_key")):
         save_session(request.sessionId, intent)
         return {
             "sessionId": request.sessionId,

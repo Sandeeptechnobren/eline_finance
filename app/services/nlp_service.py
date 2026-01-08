@@ -61,6 +61,15 @@ def analyze_input(user_input: str, session: dict):
     if not intent["multiple_categories"] and matches:
         intent["category_key"] = matches[0]
 
+
+    if not intent["categories"]:
+        intent["needs_clarification"] = True
+        intent["clarification_reason"] = (
+            "Please specify which category you want "
+            "(for example: Operating income, New income)."
+        )
+        return intent   
+
     if intent["multiple_categories"]:
         types = {
             get_category_type(key, CATEGORIES)
