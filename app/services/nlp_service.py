@@ -11,7 +11,7 @@ CATEGORIES = load_categories()
 # Aggregation detector (from USER input only)
 def detect_aggregation(text: str):
     text = text.lower()
-    if "total" in text or "sum" in text:
+    if "total" in text or "sum" in text or "overall" in text:
         return "sum"
     if "average" in text or "avg" in text:
         return "avg"
@@ -120,10 +120,17 @@ def analyze_input(user_input: str, session: dict):
 
     if llm_data.get("percentage_change") is not None:
         intent["percentage_change"] = llm_data["percentage_change"]
+        intent["change_direction"] = llm_data.get("change_direction", "increase")
     else:
         intent.pop("percentage_change", None)
+        intent.pop("change_direction", None)
 
-    intent["change_direction"] = llm_data.get("change_direction")
+    if intent.get("change_direction") and intent.get("percentage_change") is None:
+        intent["needs_clarification"] = True
+        intent["clarification_reason"] = (
+            "Please specify the percentage change for this what-if scenario."
+        )
+        return intent
 
     missing_time = not start or not end
 

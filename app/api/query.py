@@ -12,9 +12,8 @@ async def query_builder(request: QueryRequest):
     session = get_session(request.sessionId)
     intent = analyze_input(request.input, session)
 
-    print("Analyzed Intent:", intent)
+  
 
-    # 🔑 SINGLE source of clarification truth
     if intent.get("needs_clarification") or (
     not intent.get("multiple_categories") and not intent.get("category_key")):
         save_session(request.sessionId, intent)
@@ -27,12 +26,10 @@ async def query_builder(request: QueryRequest):
             "status": "pending"
         }
 
-    # Build SQL safely
+
     query = build_sql(intent)
 
-    # -------------------------------------
-    # Response text
-    # -------------------------------------
+ 
     if intent.get("multiple_categories"):
         categories_text = ", ".join(
             c.replace("_", " ") for c in intent["categories"]
