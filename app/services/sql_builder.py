@@ -2,11 +2,8 @@ def build_sql(intent: dict) -> str:
     if not intent.get("start_date") or not intent.get("end_date"):
         raise ValueError("Cannot generate SQL without a valid date range")
 
-    # -------------------------------------------------
-    # MULTIPLE CATEGORIES (AGGREGATION ONLY)
-    # -------------------------------------------------
     if intent.get("multiple_categories"):
-        # Safety check (defense-in-depth)
+       
         if intent.get("percentage_change") is not None:
             raise ValueError(
                 "Percentage change is not allowed for multiple categories"
@@ -32,9 +29,7 @@ WHERE category_key IN ('{keys}')
   AND date BETWEEN '{intent["start_date"]}' AND '{intent["end_date"]}';
 """.strip()
 
-    # -------------------------------------------------
-    # SINGLE CATEGORY
-    # -------------------------------------------------
+
     if intent.get("aggregation") == "sum":
         select_clause = f"SUM(amount) AS total_{intent['category_key']}"
     elif intent.get("aggregation") == "avg":
