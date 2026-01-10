@@ -9,14 +9,6 @@ CATEGORIES = load_categories()
 
 
 # Aggregation detector (from USER input only)
-def detect_aggregation(text: str):
-    text = text.lower()
-    if "total" in text or "sum" in text or "overall" in text:
-        return "sum"
-    if "average" in text or "avg" in text:
-        return "avg"
-    return None
-
 def get_category_type(category_key: str, categories: dict):
     for cat_type, group in categories.items():
         if category_key in group:
@@ -41,7 +33,11 @@ def analyze_input(user_input: str, session: dict):
     intent["raw_input"] = user_input
     intent["llm"] = llm_data
 
-    intent["aggregation"] = detect_aggregation(user_input)
+    intent["aggregation"] = llm_data.get("aggregation")
+
+    if intent["aggregation"] not in ("sum", "avg"):
+        intent["aggregation"] = None
+
 
     label = llm_data.get("category_label")
 

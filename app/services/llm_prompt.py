@@ -32,6 +32,11 @@ Field definitions:
 - clarification_reason: Short explanation if clarification is needed
 
 MANDATORY RULES (CRITICAL):
+- aggregation:
+    - return "sum" ONLY if the user explicitly asks for total, sum, overall, or equivalent wording
+    - return "avg" ONLY if the user explicitly asks for average
+    - otherwise return null
+
 - Percentage change is OPTIONAL
 - Percentage change MUST NOT be requested unless the user explicitly asks a what-if scenario
 - percentage_change MUST always be a positive number
@@ -59,6 +64,19 @@ Normalization rules:
 - If normalization is not possible, set normalized_time_expression = null
 
 Examples:
+
+Input: "what is total revenue of operating income next two months?"
+Output:
+{
+  "category_label": "Operating income",
+  "time_expression": "next two months",
+  "normalized_time_expression": "next 2 months",
+  "aggregation": "sum",
+  "percentage_change": null,
+  "change_direction": null,
+  "needs_clarification": false,
+  "clarification_reason": null
+}
 
 Input: "What is revenue of operating income next two months?"
 Output:

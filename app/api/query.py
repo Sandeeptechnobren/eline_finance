@@ -13,7 +13,7 @@ async def query_builder(request: QueryRequest):
     session = get_session(request.sessionId)
     intent = analyze_input(request.input, session)
 
-  
+    print("ANALYZED INTENT:", intent)
 
     if intent.get("needs_clarification") or (
     not intent.get("multiple_categories") and not intent.get("category_key")):
