@@ -12,9 +12,9 @@ def build_sql(intent: dict) -> str:
         keys = "', '".join(intent["categories"])
 
         if intent.get("aggregation") == "sum":
-            select_clause = f"SUM(amount)  AS total_{intent['categories']}"
+            select_clause = "SUM(amount)  AS total_amount"
         elif intent.get("aggregation") == "avg":
-            select_clause = f"AVG(amount) AS average_{intent['categories']}"
+            select_clause = "AVG(amount) AS average_amount"
         else:
             raise ValueError(
                 "Aggregation is required for multiple categories"
